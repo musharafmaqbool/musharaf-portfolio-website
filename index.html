@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Musharaf Maqbool - Portfolio</title>
-    <!-- CDN Links -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,9 +12,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --primary-color: #1f8098;
-            --bg-color: #1e1b22;
-            --card-bg: rgba(255, 255, 255, 0.1);
+            --primary-color: #00ff88;
+            --secondary-color: #00b8ff;
+            --accent-color: #ff00ff;
+            --bg-color: #000000;
+            --card-bg: rgba(0, 0, 0, 0.75);
+            --card-border: rgba(0, 255, 136, 0.3);
+            --card-glow: 0 0 20px rgba(0, 255, 136, 0.2);
         }
 
         * {
@@ -31,7 +32,115 @@
             line-height: 1.6;
             color: #fff;
             overflow-x: hidden;
-            background-color: var(--bg-color); /* Fallback background color */
+            background-color: var(--bg-color);
+        }
+
+        #video-bg {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(0.7) contrast(1.2);
+            animation: videoPulse 10s ease-in-out infinite;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            box-shadow: 0 2px 20px rgba(0, 255, 136, 0.1);
+        }
+
+        .section-card, .about-content, .contact-content, .timeline-item, .education-item, .project-card, .skill-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--card-glow);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card:hover, .about-content:hover, .contact-content:hover, .timeline-item:hover, .education-item:hover, .project-card:hover, .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .section-card::before, .about-content::before, .contact-content::before, .timeline-item::before, .education-item::before, .project-card::before, .skill-item::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            z-index: -1;
+            border-radius: inherit;
+            animation: borderGlow 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-card:hover::before, .about-content:hover::before, .contact-content:hover::before, .timeline-item:hover::before, .education-item:hover::before, .project-card:hover::before, .skill-item:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes borderGlow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .download-btn, .submit-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: #000;
+            font-weight: 500;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .download-btn::before, .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .download-btn:hover::before, .submit-btn:hover::before {
+            opacity: 1;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .skill-item i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover i {
+            transform: scale(1.2) rotate(360deg);
+            color: var(--secondary-color);
         }
 
         /* Loading Animation */
@@ -176,15 +285,6 @@
             opacity: 1;
         }
 
-        #vanta-bg {
-            position: fixed;
-            z-index: -1;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-        }
-
         .navbar {
             position: fixed;
             top: 0;
@@ -193,8 +293,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(30, 27, 34, 0.9);
-            backdrop-filter: blur(10px);
             z-index: 1000;
             transition: transform 0.3s ease, background 0.3s ease;
         }
@@ -203,11 +301,12 @@
             font-family: 'Big Shoulders Inline', sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), #fff);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             letter-spacing: 2px;
+            animation: gradientText 5s ease infinite;
         }
 
         .nav-links {
@@ -222,10 +321,6 @@
             text-decoration: none;
             transition: color 0.3s;
             font-size: 1.1rem;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
         }
 
         .hamburger {
@@ -258,38 +353,20 @@
         h1, h2, h3 {
             font-family: 'Oxanium', cursive;
             margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientText 5s ease infinite;
         }
 
         h1 {
             font-size: 3rem;
-            background: linear-gradient(45deg, var(--primary-color), #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         h2 {
             font-size: 2.5rem;
-        }
-
-        .section-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
 
         .about-image img {
@@ -298,29 +375,10 @@
             border: 2px solid var(--primary-color);
         }
 
-        .download-btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: var(--primary-color);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 1rem;
-            transition: all 0.3s;
-            font-family: 'Oxanium', cursive;
-        }
-
-        .download-btn:hover {
-            background: #166d84;
-            transform: translateY(-2px);
-        }
-
         .timeline-item, .education-item, .project-card {
-            background: var(--card-bg);
             border-radius: 15px;
             padding: 2rem;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease;
         }
 
@@ -336,21 +394,11 @@
         }
 
         .skill-item {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 1.5rem;
             transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .skill-item:hover {
             transform: translateY(-5px);
-        }
-
-        .skill-item i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
         }
 
         .projects-grid {
@@ -364,15 +412,6 @@
             height: 200px;
             object-fit: cover;
             border-radius: 10px;
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
         }
 
         .contact-form {
@@ -391,21 +430,6 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .submit-btn {
-            padding: 1rem;
-            background: var(--primary-color);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Oxanium', cursive;
-            transition: background 0.3s;
-        }
-
-        .submit-btn:hover {
-            background: #166d84;
-        }
-
         .social-links {
             display: flex;
             gap: 1.5rem;
@@ -415,12 +439,24 @@
         .social-links a {
             color: #fff;
             font-size: 1.5rem;
+            position: relative;
             transition: all 0.3s ease;
         }
 
-        .social-links a:hover {
-            color: var(--primary-color);
-            transform: translateY(-3px);
+        .social-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover::after {
+            transform: scaleX(1);
         }
 
         /* Reveal Animation */
@@ -446,7 +482,7 @@
                 top: 70px;
                 right: -100%;
                 flex-direction: column;
-                background: rgba(30, 27, 34, 0.95);
+                background: rgba(0, 0, 0, 0.85);
                 width: 100%;
                 text-align: center;
                 transition: 0.3s;
@@ -470,6 +506,11 @@
                 font-size: 2rem;
             }
         }
+
+        @keyframes videoPulse {
+            0%, 100% { filter: brightness(0.7) contrast(1.2); }
+            50% { filter: brightness(0.8) contrast(1.3); }
+        }
     </style>
 </head>
 <body>
@@ -492,7 +533,9 @@
     </div>
 
     <div class="content">
-        <div id="vanta-bg"></div>
+        <video autoplay muted loop id="video-bg">
+            <source src="Network_R.mp4" type="video/mp4">
+        </video>
 
         <nav class="navbar">
             <div class="nav-logo">Musharaf Maqbool</div>
@@ -519,7 +562,7 @@
                         <h2>Hello! I'm Musharaf Maqbool</h2>
                         <p>I'm a 3rd-year IT undergrad at NIT Srinagar with a passion for cybersecurity, threat intelligence, and full-stack development. I have excellent proficiency in using AI tools to enhance security analysis, automate workflows, and optimize solutions. I enjoy solving complex problems, whether it's correlating threat data, optimizing code, or just figuring out why things break. Currently, I'm sharpening my DSA skills and building secure, scalable solutions. Always up for a tech challenge—let's innovate!</p>
 
-                        <a href="resume (3).pdf" class="download-btn">Download Resume</a>
+                        <a href="musharaf_resume (2).pdf" class="download-btn">Download Resume</a>
                     </div>
                     <div class="about-image">
                         <img src="picofme (3).png" alt="Musharaf Maqbool">
@@ -702,25 +745,10 @@
         // Wait for all resources to load before initializing
         window.addEventListener('load', function() {
             try {
-                // Initialize VANTA background
-                VANTA.BIRDS({
-                    el: "#vanta-bg",
-                    mouseControls: true,
-                    touchControls: true,
-                    gyroControls: false,
-                    minHeight: 200.00,
-                    minWidth: 200.00,
-                    scale: 1.00,
-                    scaleMobile: 1.00,
-                    color1: 0xd1ff,
-                    birdSize: 1.90,
-                    speedLimit: 7.00,
-                    separation: 23.00,
-                    alignment: 41.00,
-                    cohesion: 22.00,
-                    backgroundColor: 0x1e1b22
-                });
-                
+                // Set video playback speed
+                const video = document.getElementById('video-bg');
+                video.playbackRate = 0.5; // Slower playback speed
+
                 // Show content
                 document.querySelector('.content').classList.add('loaded');
                 
@@ -730,11 +758,10 @@
                     document.querySelector('.loader-wrapper').style.visibility = 'hidden';
                 }, 1000);
             } catch (error) {
-                console.error("Error initializing VANTA background:", error);
-                // If VANTA fails, still show the content
+                console.error("Error initializing:", error);
                 document.querySelector('.content').classList.add('loaded');
                 document.querySelector('.loader-wrapper').style.display = 'none';
-                document.body.style.backgroundColor = "#1e1b22";
+                document.body.style.backgroundColor = "#000000";
             }
             
             // Smooth scrolling for navigation
@@ -780,9 +807,9 @@
                 lastScroll = currentScroll;
 
                 if (currentScroll > 50) {
-                    navbar.style.background = 'rgba(30, 27, 34, 0.95)';
+                    navbar.style.background = 'rgba(0, 0, 0, 0.85)';
                 } else {
-                    navbar.style.background = 'rgba(30, 27, 34, 0.9)';
+                    navbar.style.background = 'rgba(0, 0, 0, 0.8)';
                 }
             });
 
