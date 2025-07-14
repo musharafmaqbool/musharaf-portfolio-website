@@ -592,6 +592,162 @@
             box-shadow: 0 4px 24px 0 rgba(0,255,136,0.18);
             transform: translateY(-2px) scale(1.04);
         }
+
+        .typewriter-text {
+          display: inline-block;
+          overflow: hidden;
+          border-right: .15em solid var(--primary-color);
+          white-space: nowrap;
+          letter-spacing: .05em;
+          animation: typing 2.5s steps(30, end), blink-caret .75s step-end infinite;
+          font-family: 'Oxanium', cursive;
+          font-size: 2rem;
+          background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes typing {
+          from { width: 0 }
+          to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+          from, to { border-color: transparent }
+          50% { border-color: var(--primary-color); }
+        }
+
+        .glitch-fade-text span {
+          display: inline-block;
+          opacity: 0;
+          transform: scale(0.7);
+          animation: fadeScaleIn 0.7s forwards;
+          font-family: 'Oxanium', cursive;
+          font-size: 2rem;
+          background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          position: relative;
+        }
+
+        @keyframes fadeScaleIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.7);
+            filter: blur(2px);
+          }
+          60% {
+            opacity: 1;
+            transform: scale(1.15);
+            filter: blur(0.5px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+          }
+        }
+
+        .glitch-fade-text .glitch {
+          animation: glitch 0.3s;
+        }
+
+        @keyframes glitch {
+          0% {
+            text-shadow: 2px 0 var(--accent-color), -2px 0 var(--secondary-color);
+            transform: translate(0, 0) skew(0deg);
+          }
+          20% {
+            text-shadow: -2px 0 var(--primary-color), 2px 0 var(--accent-color);
+            transform: translate(-2px, 2px) skew(-5deg);
+          }
+          40% {
+            text-shadow: 2px 2px var(--secondary-color), -2px -2px var(--primary-color);
+            transform: translate(2px, -1px) skew(3deg);
+          }
+          60% {
+            text-shadow: -1px 1px var(--accent-color), 1px -1px var(--secondary-color);
+            transform: translate(-1px, 1px) skew(-2deg);
+          }
+          100% {
+            text-shadow: none;
+            transform: none;
+          }
+        }
+        .glitch-fade-text .space {
+          width: 0.5em;
+          display: inline-block;
+          animation: none !important;
+        }
+        .matrix-reveal-text {
+          display: inline-block;
+          font-family: 'Oxanium', 'Consolas', 'monospace';
+          font-size: 2rem;
+          color: #00ff41;
+          letter-spacing: 0.04em;
+          text-shadow: 0 0 8px #00ff41, 0 0 2px #fff;
+          position: relative;
+          overflow: hidden;
+        }
+        .matrix-reveal-text span {
+          display: inline-block;
+          min-width: 1ch;
+          /* No color, filter, or transition here! */
+        }
+        .matrix-reveal-text .matrix-space {
+          min-width: 0.5em;
+          display: inline-block;
+        }
+        .matrix-reveal-text .matrix-stream {
+          color: #39ff14;
+          opacity: 0.7;
+          filter: blur(0.5px);
+        }
+        .matrix-reveal-text .matrix-gradient {
+          background: linear-gradient(90deg, #00ff41, #00b8ff, #a259ff, #ff00ff, #ff6ec7);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradientMove 2.5s linear infinite;
+          font-weight: bold;
+          filter: drop-shadow(0 0 6px #00ff41) drop-shadow(0 0 12px #a259ff);
+        }
+        .matrix-gradient-text {
+          background: linear-gradient(180deg, #00ff88 0%, #00b8ff 40%, #00cfff 60%, #a259ff 80%, #ff00ff 100%);
+          background-size: 100% 100%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+          font-weight: bold;
+          font-size: 2rem;
+          font-family: 'Oxanium', 'Consolas', 'monospace';
+          letter-spacing: 0.18em; /* Increased for better match */
+          line-height: 1.2;
+          font-variant-ligatures: none;
+        }
+
+        .matrix-gradient {
+          background: linear-gradient(180deg, #00ff88 0%, #00b8ff 40%, #00cfff 60%, #a259ff 80%, #ff00ff 100%);
+          background-size: 100% 100%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+        }
+
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+        }
+        .matrix-sharp {
+          color: #00ff88 !important;
+          background: none !important;
+          -webkit-background-clip: initial !important;
+          -webkit-text-fill-color: initial !important;
+          background-clip: initial !important;
+          font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -640,9 +796,8 @@
                 <h1>About Me</h1>
                 <div class="about-content reveal">
                     <div class="about-text">
-                        <h2>Hello! I'm Musharaf Maqbool</h2>
-                        <p>I'm a 3rd-year IT undergrad at NIT Srinagar with a passion for cybersecurity, threat intelligence, and full-stack development. I have excellent proficiency in using AI tools to enhance security analysis, automate workflows, and optimize solutions. I enjoy solving complex problems, whether it's correlating threat data, optimizing code, or just figuring out why things break. Currently, I'm sharpening my DSA skills and building secure, scalable solutions. Always up for a tech challenge—let's innovate!</p>
-
+                        <h2><span class="matrix-reveal-text">Hello! I'm Musharaf Maqbool</span></h2>
+                        <p>Hi, I'm a 4th-year IT undergrad at NIT Srinagar with a focus on cybersecurity (mostly threat intelligence) and full-stack development. I like building secure and scalable systems, and I use AI tools to make my work smarter and a bit easier. Currently brushing up on my DSA skills and trying to write code that doesn't break on the first run. I enjoy solving real-world tech problems and automating the boring stuff. Always up for a new challenge or learning something useful (even if it takes a few Stack Overflow visits).</p>
                         <div class="text-center">
                             <a href="musharaf_resume (2).pdf" class="action-btn">Download Resume</a>
                         </div>
@@ -976,6 +1131,64 @@
                 }
             }
         }, 5000); // 5 second fallback
+
+        // Matrix Code Rain Reveal for "Hello! I'm Musharaf Maqbool"
+        document.addEventListener('DOMContentLoaded', function() {
+          const matrixText = document.querySelector('.matrix-reveal-text');
+          if (matrixText) {
+            const text = matrixText.textContent;
+            matrixText.innerHTML = '';
+            const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const revealDelay = 60; // ms between each letter reveal
+            const streamLength = 8; // how many random chars before reveal
+
+            for (let i = 0; i < text.length; i++) {
+              const span = document.createElement('span');
+              if (text[i] === ' ') {
+                span.className = 'matrix-space';
+                span.innerHTML = '&nbsp;';
+              } else {
+                span.textContent = '';
+              }
+              matrixText.appendChild(span);
+            }
+
+            function revealLetter(i) {
+              if (i >= text.length) {
+                // After the last letter, clean up all spans for sharp color
+                Array.from(matrixText.children).forEach(child => {
+                  if (child.classList.contains('matrix-space')) {
+                    child.className = 'matrix-space';
+                  } else {
+                    child.className = 'matrix-sharp';
+                  }
+                  child.removeAttribute('style');
+                });
+                return;
+              }
+              const span = matrixText.children[i];
+              if (span.classList.contains('matrix-space')) {
+                // Reveal next letter after a short delay
+                setTimeout(() => revealLetter(i + 1), revealDelay);
+                return;
+              }
+              let streamPos = 0;
+              const streamInterval = setInterval(() => {
+                span.textContent = chars[Math.floor(Math.random() * chars.length)];
+                span.classList.add('matrix-stream');
+                streamPos++;
+                if (streamPos > streamLength) {
+                  clearInterval(streamInterval);
+                  span.textContent = text[i];
+                  span.classList.remove('matrix-stream');
+                  // Reveal next letter
+                  setTimeout(() => revealLetter(i + 1), revealDelay);
+                }
+              }, 30);
+            }
+            revealLetter(0);
+          }
+        });
     </script>
 </body>
 </html>
